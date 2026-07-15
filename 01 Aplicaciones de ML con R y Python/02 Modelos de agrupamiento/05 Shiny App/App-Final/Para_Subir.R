@@ -1,0 +1,16 @@
+# Para conectar a https://login.shinyapps.io/login?redirect=%2F
+
+library(rsconnect)
+
+
+rsconnect::setAccountInfo(name='benjov',
+                          token='6667F0C5CE33274A23034B3359994A9B',
+                          secret='wvEmBzHd3f29P/7YIVfWC+2DLdvYrA9X31LLrWPO')
+
+
+deployApp("/Users/benjamin/Downloads/App-Final",
+          appName = "Tickers-App",
+          appTitle = "Tickers-App",
+          account = "benjov")
+
+

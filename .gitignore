@@ -1,0 +1,23 @@
+# macOS
+.DS_Store
+*/.DS_Store/
+
+# Jupyter Checkpoints
+.ipynb_checkpoints
+*/.ipynb_checkpoints/
+
+# R
+.Rhistory
+*/.Rhistory/
+.Rproj.user/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+
+# Keys
+#api_keys_all.py
+
+# Claude Code — nunca debe verse evidencia de esta herramienta en el repo público
+CLAUDE.md
+.claude/
+.claude/settings.local.json

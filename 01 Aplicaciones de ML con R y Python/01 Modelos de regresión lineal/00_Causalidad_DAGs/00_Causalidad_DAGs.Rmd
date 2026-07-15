@@ -1,0 +1,285 @@
+---
+title: "Esperanza condicional y causalidad: DAGs, confusores y sesgos comunes"
+author: "Benjamin Oliva"
+date: "14/07/2026"
+output: html_document
+---
+
+```{r setup, include=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+#install.packages("dagitty")
+#install.packages("ggplot2")
+#install.packages("dplyr")
+
+library(dagitty)
+library(ggplot2)
+library(dplyr)
+
+set.seed(2026)
+```
+
+# Introducción
+
+Este documento acompaña la sección "El concepto de esperanza condicional y Causalidad" de las notas de clase. No repite las definiciones formales — eso ya está en las notas — sino que las hace tangibles con dos herramientas: grafos acíclicos dirigidos (DAG) dibujados con el paquete `dagitty`, y datos **simulados**, donde nosotros elegimos el efecto causal verdadero de antemano y podemos comparar contra lo que distintos modelos "ven" a partir de los datos.
+
+Recordemos la distinción central de las notas: **correlación no es causalidad**. La esperanza condicional $\mathbb{E}[y \mid x, \mathbf{C}]$ es un objeto puramente estadístico — un promedio de $y$ dado $x$ y un conjunto de variables de control $\mathbf{C}$ — y solo se puede interpretar como un efecto *causal* de $x$ sobre $y$ si $\mathbf{C}$ contiene las variables correctas. Los DAG son la herramienta que usamos para decidir cuáles son esas variables correctas.
+
+# 1. Esperanza condicional: una intuición rápida
+
+Antes de entrar a los DAG, vale la pena ver qué es $\mathbb{E}[y \mid x]$ en términos muy concretos: es, para cada valor (o grupo de valores) de $x$, el promedio de $y$ entre las observaciones con ese valor de $x$. La regresión lineal por mínimos cuadrados es, en el fondo, una forma paramétrica de aproximar esa misma cantidad.
+
+```{r esperanza_condicional}
+n <- 2000
+x <- runif(n, 0, 10)
+y <- 2 + 3 * x + rnorm(n, sd = 3)
+
+datos_ec <- data.frame(x = x, y = y)
+datos_ec$decil <- cut(datos_ec$x, breaks = 10)
+
+medias_por_decil <- datos_ec %>%
+  group_by(decil) %>%
+  summarise(x_medio = mean(x), y_medio = mean(y))
+
+ggplot(datos_ec, aes(x = x, y = y)) +
+  geom_point(alpha = 0.15) +
+  geom_point(data = medias_por_decil, aes(x = x_medio, y = y_medio),
+             color = "darkred", size = 3) +
+  geom_smooth(method = "lm", se = FALSE, color = "darkblue") +
+  labs(
+    title = "E[y|x] en la práctica: promedios por grupo vs. la recta ajustada por MCO",
+    subtitle = "Puntos rojos: promedio de y dentro de cada decil de x (aproximación no paramétrica de E[y|x])",
+    x = "x", y = "y"
+  ) +
+  theme_minimal()
+```
+
+Los puntos rojos (promedios dentro de cada decil de `x`, sin asumir ninguna forma funcional) y la recta azul (la $\mathbb{E}[y|x]$ *lineal* que estima `lm`) coinciden casi exactamente porque en este ejemplo la relación sí es lineal. La regresión es, literalmente, una hipótesis sobre la forma de $\mathbb{E}[y|x]$.
+
+# 2. Grafos Acíclicos Dirigidos (DAG) con `dagitty`
+
+Un DAG representa una cadena de efectos causales con flechas ($\longrightarrow$) que van en una sola dirección. La ausencia de flecha entre dos variables afirma, explícitamente, que no hay relación causal directa entre ellas — un DAG cuenta dos historias a la vez: lo que pasa y lo que no pasa.
+
+## 2.1 Efecto directo vs. ruta trasera (backdoor path)
+
+Recreamos el primer ejemplo de las notas: `D` es la variable de tratamiento, `Y` la variable de interés, y `X` es una variable observable que afecta tanto a `D` como a `Y`.
+
+```{r dag_backdoor, fig.width=3, fig.height=2}
+dag_confusor_observado <- dagitty("dag {
+  D -> Y
+  X -> D
+  X -> Y
+}")
+coordinates(dag_confusor_observado) <- list(
+  x = c(D = 0, Y = 2, X = 1),
+  y = c(D = 0, Y = 0, X = 1)
+)
+plot(dag_confusor_observado)
+```
+
+Hay dos rutas de `D` a `Y`: la directa ($D \rightarrow Y$, causal) y la trasera ($D \leftarrow X \rightarrow Y$, no causal). Si no controlamos por `X`, la ruta trasera se cuela en cualquier asociación que midamos entre `D` y `Y`, generando una correlación espuria.`dagitty` puede decirnos exactamente qué hay que controlar para bloquear todas las rutas traseras:
+
+```{r dag_backdoor_ajuste}
+adjustmentSets(dag_confusor_observado, exposure = "D", outcome = "Y")
+```
+
+Comprobemos la ruta trasera con datos simulados donde conocemos el efecto causal verdadero de `D` sobre `Y` ($\beta_D = 2$):
+
+```{r sim_confusor_observado}
+n <- 5000
+X <- rnorm(n)
+D <- 0.8 * X + rnorm(n)
+Y <- 2 * D + 1.5 * X + rnorm(n)
+
+modelo_naive <- lm(Y ~ D)
+modelo_controlado <- lm(Y ~ D + X)
+
+data.frame(
+  Modelo = c("Y ~ D (ignora X)", "Y ~ D + X (bloquea la ruta trasera)"),
+  Beta_D_estimado = c(coef(modelo_naive)["D"], coef(modelo_controlado)["D"]),
+  Beta_D_verdadero = 2
+)
+```
+
+El modelo ingenuo sobreestima el efecto de `D` porque le atribuye a `D` parte de lo que en realidad es efecto de `X`. Controlar por `X` —el conjunto de ajuste que `dagitty` identificó — recupera un estimado muy cercano al verdadero.
+
+## 2.2 Confusor no observado
+
+Ahora el segundo ejemplo de las notas: la misma estructura, pero `U` (el confusor) **no es observable** — pensemos en algo como habilidad o motivación individual, que casi nunca está en los datos.
+
+```{r dag_confusor_no_observado, fig.width=3, fig.height=2}
+dag_confusor_no_observado <- dagitty("dag {
+  U [unobserved]
+  D -> Y
+  U -> D
+  U -> Y
+}")
+coordinates(dag_confusor_no_observado) <- list(
+  x = c(D = 0, Y = 2, U = 1),
+  y = c(D = 0, Y = 0, U = 1)
+)
+plot(dag_confusor_no_observado)
+```
+
+```{r dag_confusor_no_observado_ajuste}
+adjustmentSets(dag_confusor_no_observado, exposure = "D", outcome = "Y")
+```
+
+`dagitty` no devuelve ningún conjunto de ajuste: con `U` no observable, **no existe forma de bloquear la ruta trasera con las variables disponibles**. Lo confirmamos simulando de nuevo, esta vez viendo qué pasaría (algo que nunca podríamos hacer con datos reales) si pudiéramos observar `U`:
+
+```{r sim_confusor_no_observado}
+U <- rnorm(n)
+D2 <- 0.8 * U + rnorm(n)
+Y2 <- 2 * D2 + 1.5 * U + rnorm(n)
+
+modelo_naive2 <- lm(Y2 ~ D2)
+modelo_oraculo <- lm(Y2 ~ D2 + U)  # inalcanzable en la práctica: U no se observa
+
+data.frame(
+  Modelo = c("Y ~ D (todo lo que podríamos correr en la práctica)",
+             "Y ~ D + U (solo posible si U fuera observable)"),
+  Beta_D_estimado = c(coef(modelo_naive2)["D2"], coef(modelo_oraculo)["D2"]),
+  Beta_D_verdadero = 2
+)
+```
+
+El sesgo del modelo ingenuo es, en magnitud, muy parecido al del caso anterior — la diferencia es que ahora no tenemos ninguna variable observable que lo corrija.
+
+## 2.3 Variables instrumentales
+
+¿Qué hacer cuando el confusor no es observable? Una salida es encontrar una **variable instrumental** `Z`: una variable que (1) sí afecta a `D`, pero (2) no tiene ninguna ruta hacia `Y` salvo a través de `D` (no está conectada con `U`).
+
+```{r dag_iv, fig.width=3, fig.height=2}
+dag_iv <- dagitty("dag {
+  U [unobserved]
+  Z -> D
+  D -> Y
+  U -> D
+  U -> Y
+}")
+coordinates(dag_iv) <- list(
+  x = c(Z = 0, D = 1, Y = 2, U = 1.5),
+  y = c(Z = 0, D = 0, Y = 0, U = 1)
+)
+plot(dag_iv)
+```
+
+Bajo esas condiciones, el estimador de **mínimos cuadrados en dos etapas (2SLS)** recupera el efecto causal aun sin observar `U`: en la primera etapa se predice `D` a partir de `Z` únicamente; en la segunda etapa se usa esa predicción ($\hat D$, la parte de la variación de `D` que proviene solo de `Z`, no de `U`) en vez de `D` directamente.
+
+```{r sim_iv}
+U3 <- rnorm(n)
+Z <- rnorm(n)
+D3 <- 0.6 * Z + 0.8 * U3 + rnorm(n)
+Y3 <- 2 * D3 + 1.5 * U3 + rnorm(n)
+
+modelo_naive3 <- lm(Y3 ~ D3)
+
+primera_etapa <- lm(D3 ~ Z)
+D3_hat <- fitted(primera_etapa)
+segunda_etapa <- lm(Y3 ~ D3_hat)
+
+data.frame(
+  Modelo = c("Y ~ D (ingenuo)", "2SLS con instrumento Z"),
+  Beta_D_estimado = c(coef(modelo_naive3)["D3"], coef(segunda_etapa)["D3_hat"]),
+  Beta_D_verdadero = 2
+)
+```
+
+## 2.4 Varios confusores, uno de ellos no observado: el ejemplo de la educación
+
+El tercer ejemplo de las notas es más rico: `D` indica si una persona tiene educación media superior, `Y` son sus ingresos, `PE` es el nivel educativo de los padres, `I` es el ingreso familiar, y `B` es un "background" no observable (genética, personalidad, ambiente familiar) que afecta tanto a `PE` como a `D`, pero **no tiene efecto directo sobre `Y`** — solo actúa a través de la elección educativa.
+
+```{r dag_educacion, fig.width=3, fig.height=2}
+dag_educacion <- dagitty("dag {
+  B [unobserved]
+  PE -> I
+  PE -> D
+  I -> D
+  I -> Y
+  D -> Y
+  B -> PE
+  B -> D
+}")
+coordinates(dag_educacion) <- list(
+  x = c(PE = 0, I = 1, D = 1, Y = 2, B = 0),
+  y = c(PE = 1, I = 1, D = 0, Y = 0, B = 0)
+)
+plot(dag_educacion)
+```
+
+```{r dag_educacion_ajuste}
+adjustmentSets(dag_educacion, exposure = "D", outcome = "Y")
+```
+
+Aunque `B` es un confusor real de la relación `D`-`Y`, su único camino hacia `D` pasa por `PE` (observable) — por eso `dagitty` sí encuentra un conjunto de ajuste válido usando solo variables observables, pese a que `B` nunca se mide. Pero ojo: **no cualquier subconjunto de variables observables sirve**. Comprobemos con la simulación qué pasa si controlamos por el conjunto correcto (`I`) contra un subconjunto insuficiente (`PE` solamente):
+
+```{r sim_educacion}
+B <- rnorm(n)
+PE <- 0.5 * B + rnorm(n)
+I <- 0.6 * PE + rnorm(n)
+D4 <- 0.4 * PE + 0.3 * I + 0.3 * B + rnorm(n)
+Y4 <- 2 * D4 + 0.5 * I + rnorm(n)
+
+data.frame(
+  Modelo = c("Y ~ D (ingenuo)", "Y ~ D + PE (insuficiente)",
+             "Y ~ D + I (conjunto de ajuste de dagitty)"),
+  Beta_D_estimado = c(
+    coef(lm(Y4 ~ D4))["D4"],
+    coef(lm(Y4 ~ D4 + PE))["D4"],
+    coef(lm(Y4 ~ D4 + I))["D4"]
+  ),
+  Beta_D_verdadero = 2
+)
+```
+
+Controlar solo por `PE` reduce el sesgo pero no lo elimina (queda abierta la ruta trasera vía `I`); controlar por `I` sí lo elimina, exactamente lo que predijo `dagitty` sin que nosotros tuviéramos que derivarlo a mano. La lección: "controlar por observables" no es automáticamente correcto — hay que controlar por los observables *correctos*, y el DAG es la herramienta para identificarlos.
+
+# 3. Sesgo de selección (colisionador): el ejemplo de Cunningham (2021)
+
+Las notas retoman un ejemplo de Cunningham (2021): una publicación de 2009 reportó que Megan Fox fue votada, en la misma encuesta, como la actriz más atractiva **y** la de peor actuación del año — sugiriendo que talento y belleza estarían negativamente correlacionados entre las estrellas de cine. Simulamos exactamente esa situación.
+
+```{r sim_colisionador}
+n <- 5000
+talento <- rnorm(n)
+belleza <- rnorm(n)
+
+puntaje_estrella <- talento + belleza
+umbral <- quantile(puntaje_estrella, 0.85)
+es_estrella <- puntaje_estrella >= umbral
+
+cat("Correlación talento-belleza, población completa:      ",
+    round(cor(talento, belleza), 3), "\n")
+cat("Correlación talento-belleza, solo 'estrellas de cine':",
+    round(cor(talento[es_estrella], belleza[es_estrella]), 3),
+    " (n =", sum(es_estrella), ")\n")
+```
+
+```{r plot_colisionador}
+datos_estrellas <- data.frame(talento, belleza, es_estrella)
+
+ggplot(datos_estrellas, aes(x = talento, y = belleza, color = es_estrella)) +
+  geom_point(alpha = 0.4, size = 1.2) +
+  geom_smooth(data = filter(datos_estrellas, es_estrella),
+              method = "lm", se = FALSE, color = "darkred") +
+  scale_color_manual(
+    values = c("grey70", "darkred"),
+    labels = c("Resto de la población", "\"Estrellas de cine\" (top 15%)")
+  ) +
+  labs(
+    title = "Talento y belleza son independientes... hasta que seleccionamos la muestra",
+    subtitle = "Selección: solo individuos en el percentil 85+ de (talento + belleza)",
+    x = "Talento", y = "Belleza", color = NULL
+  ) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+`talento` y `belleza` se generaron como variables **independientes** — la correlación poblacional es prácticamente cero. Pero al quedarnos solo con quienes superan cierto umbral combinado (ser "estrella de cine"), aparece una correlación negativa fuerte y espuria: entre quienes ya cumplen el umbral, tener poco de una característica casi obliga a tener mucho de la otra, simplemente para seguir calificando como "estrella". Aquí "ser estrella de cine" es un **colisionador**: una variable *causada* por ambas, `talento` y `belleza`. Condicionar sobre un colisionador (aquí, sin quererlo, al restringir la muestra a estrellas de cine) abre una correlación espuria que no existía antes — el problema inverso del confusor: con un confusor, el sesgo aparece si **no** controlamos; con un colisionador, el sesgo aparece si **sí** lo hacemos (o, como en este caso, si seleccionamos la muestra en función de él).
+
+# Para pensar
+
+1. En la sección 2.1, ¿qué pasaría con el sesgo del modelo ingenuo (`Y ~ D`) si cambias el signo    de la relación `X -> D` (por ejemplo, `D <- -0.8 * X + rnorm(n)`) dejando `X -> Y` igual? ¿El    sesgo se revierte, desaparece, o cambia de magnitud?
+2. En la sección 2.2, el modelo "oráculo" (`Y ~ D + U`) no es alcanzable en la práctica porque    `U` no se observa. Más allá de las variables instrumentales (sección 2.3), ¿qué otras estrategias de diseño (no solo de análisis estadístico) se te ocurren para acercarte al efecto causal verdadero cuando sospechas que existe un confusor no observado?
+3. En la sección 2.3, ¿qué pasaría con el estimador de 2SLS si el instrumento `Z` también tuviera un efecto directo sobre `Y` (violando el supuesto de que `Z` solo afecta a `Y` a través de `D`)? Modifica la simulación agregando un término `0.5 * Z` a `Y3` y observa qué pasa con el estimado de la segunda etapa.
+4. En la sección 2.4, ¿por qué controlar solo por `PE` no es suficiente, aun cuando `PE` sí está en el camino entre `B` (no observable) y `D`? (Pista: dibuja las rutas traseras que quedan abiertas en el DAG después de condicionar únicamente sobre `PE`.)
+5. En la sección 3, ¿qué otras variables de selección de muestra en ciencias sociales podrían actuar como colisionadores sin que quien investiga se dé cuenta (piensa en encuestas, admisiones universitarias, o bases de datos administrativas que solo registran a quienes ya cumplieron cierto criterio)?
