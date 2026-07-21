@@ -95,7 +95,7 @@ Debes realizar **al menos dos** de las siguientes actividades:
 
 - Interpreta qué expresiones aparecen de forma recurrente en las noticias.
 
-- Presenta al menos una visualización o tabla de frecuencias.
+- Presenta al menos una visualización de frecuencias (por ejemplo, barras horizontales ordenadas por frecuencia; evita nubes de palabras como única evidencia, ya que no permiten comparar magnitudes con precisión).
 
 #### B. Clasificación con Naive Bayes
 
@@ -126,6 +126,16 @@ Debes realizar **al menos dos** de las siguientes actividades:
 - Muestra ejemplos antes y después de la limpieza.
 
 - Explica cómo esa depuración mejora el análisis posterior.
+
+### Estándares de visualización
+
+Todas las visualizaciones del reporte (no solo las de la sección de n-gramas) deben cumplir con:
+
+- título y ejes con etiquetas claras (unidades cuando aplique);
+
+- el tipo de gráfico adecuado para lo que se muestra (por ejemplo, barras para comparar frecuencias entre categorías, no pastel con muchas categorías);
+
+- si hay comparación entre grupos o modelos, un único gráfico que permita esa comparación directamente (en vez de gráficos separados difíciles de comparar entre sí).
 
 ## Restricciones metodológicas
 
@@ -221,8 +231,8 @@ Cada equipo o estudiante deberá entregar:
 | Carga y exploración de datos | Lee correctamente el dataset, describe su estructura y detecta problemas básicos. | 10 |
 | Limpieza y preprocesamiento | Aplica técnicas de limpieza coherentes con el corpus y bien justificadas. | 15 |
 | Aplicación de técnicas del módulo | Implementa correctamente al menos dos actividades del bloque: expresiones regulares, n-gramas, Naive Bayes o regresión logística. | 25 |
-| Evaluación e interpretación | Presenta resultados claros y los interpreta de forma pertinente. | 15 |
-| Visualizaciones y tablas | Incluye tablas o gráficos relevantes, legibles y bien explicados. | 10 |
+| Evaluación e interpretación | Presenta resultados claros y los interpreta de forma pertinente. | 10 |
+| Visualizaciones y tablas | Incluye gráficos y tablas relevantes, con el tipo de visualización adecuado, ejes/leyendas claras, y que efectivamente comunican el hallazgo (no solo decoración). | 15 |
 | Calidad del código | Código ordenado, reproducible y entendible. | 5 |
 | Calidad del reporte | Buena redacción, estructura clara y coherencia general. | 5 |
 

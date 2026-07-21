@@ -179,15 +179,21 @@ Debe incluir:
 
 	•	Debe correr de inicio a fin (con rutas claras o instrucciones para cargar datos).
 
-3) Visualización geográfica (opcional, recomendado)
-	•	Mapa por estado/ciudad o scatter con coordenadas si existen.
+3) Visualizaciones
+	•	Mínimo 3 gráficos que sustenten el análisis (por ejemplo: distribución de la variable objetivo, relación entre variables clave, comparación de modelos o perfiles por cluster).
+
+	•	Cada gráfico debe llevar título, ejes etiquetados con unidades y, si aplica, leyenda — y usar el tipo de gráfico adecuado para lo que se quiere mostrar (por ejemplo, evitar pie charts con muchas categorías o barras 3D que dificultan la lectura).
+
+	•	Adicional (recomendado si hay coordenadas disponibles): mapa por estado/ciudad o scatter geográfico.
 
 # ✅ Criterios de evaluación (100 pts)
 	•	(25) Correcta aplicación de lo visto (pipeline y método)
 
 	•	(20) Limpieza/preprocesamiento y decisiones justificadas
 
-	•	(20) Evaluación y evidencia (métricas/criterios + visualizaciones)
+	•	(10) Evaluación y evidencia (métricas/criterios)
+
+	•	(10) Calidad y pertinencia de las visualizaciones (tipo de gráfico adecuado, ejes/leyendas claras, y que efectivamente sustenten la recomendación)
 
 	•	(20) Interpretación orientada a decisión (no solo “hacer modelo”)
 
@@ -228,7 +234,7 @@ Si eliges Regresión
 
 	•	Reporté MAE + RMSE en test (y R² si aplica).
 
-	•	Incluí al menos 2 gráficos (pred vs real; residuales o similares).
+	•	Incluí al menos 2 gráficos (pred vs real; residuales o similares), con título, ejes etiquetados y el tipo de gráfico adecuado para lo que muestran.
 
 	•	Cerré con una recomendación concreta (zona/segmento/escenario).
 
@@ -239,7 +245,7 @@ Si eliges Clustering
 
 	•	Elegí k con codo/silhouette (o justifiqué DBSCAN/jerárquico).
 
-	•	Mostré perfiles por cluster (tabla + boxplots/medias).
+	•	Mostré perfiles por cluster (tabla + boxplots/medias), con gráficos bien etiquetados y con el tipo de visualización adecuado para comparar perfiles.
 	
 	•	Recomendé qué cluster conviene y por qué (riesgo/beneficio).
 

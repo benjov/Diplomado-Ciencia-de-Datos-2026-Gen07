@@ -70,6 +70,26 @@ El módulo se imparte en 10 sesiones (viernes 3.5h + sábado 4.5h, dos por seman
 
 Instrucciones y rúbricas completas en el `README.md` de cada carpeta de tarea.
 
+## Evaluación del módulo
+
+La calificación numérica del módulo se compone de las dos tareas, cada una con el mismo peso:
+
+```mermaid
+pie showData
+    title Evaluación del Módulo V
+    "Tarea 01 — Regresión + Agrupamiento (50%)" : 50
+    "Tarea 02 — Análisis de texto (50%)" : 50
+```
+
+| Componente | Peso | Rúbrica |
+|---|---:|---|
+| Tarea 01 — Regresión + Agrupamiento | 50% | `Tarea 01/README Tarea.md` |
+| Tarea 02 — Análisis de texto | 50% | `Tarea 02/README.md` |
+
+El **Reporte Final** (ensayo individual de cierre) corresponde a la evaluación del Módulo VI, no
+es un tercer componente de este 50/50. Su encargo se mencionará al final del Módulo V — ver
+`Reporte Final/README.md`.
+
 ## Sobre el bloque de IA Generativa
 
 `02 Temas selectos/04 Modelos de IA Generativa` incluye dos notebooks progresivos: un agente
