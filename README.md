@@ -66,7 +66,7 @@ El módulo se imparte en 10 sesiones (viernes 3.5h + sábado 4.5h, dos por seman
 |---|---|---|
 | Tarea 01 | Regresión lineal + Agrupamiento | Miércoles 26 de agosto |
 | Tarea 02 | Análisis de texto | Miércoles 9 de septiembre |
-| Reporte Final | Ensayo individual de reflexión | Viernes 18 de septiembre |
+| Reporte Final | Ensayo individual de reflexión | Viernes 18 de octubre |
 
 Instrucciones y rúbricas completas en el `README.md` de cada carpeta de tarea.
 
