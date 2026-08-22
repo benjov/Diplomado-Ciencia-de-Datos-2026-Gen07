@@ -24,27 +24,12 @@ OLM_01 <- readRDS("OLM_01_model.rds")
 
 LOGIT_01 <- readRDS("LOGIT_01_model.rds")
 
-library(tidyverse)
-library(knitr)
-library(foreign)
-library(ggplot2)
-library(dplyr)
-library(plotly)
-library(car)
 library(MASS)
-library(stargazer)
-library(lmtest)
-library(zoo)
-library(erer)
-library(lattice)
-library(caret)
-library(e1071)
-library(arsenal) 
 library(DT)
 library(scales)
+library(ggplot2)
 
 ```
-
 
 ```{r , echo=FALSE}
 
