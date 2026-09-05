@@ -47,9 +47,35 @@ siguiente bloque). Lo recortable, en este orden, es la sección 6 del notebook 0
 funciona bien como tarea), la sección 6 del notebook 05 (el experimento con `[CLS]`) y la sección
 3.1 del notebook 06 (DPR).
 
+## Uso en Google Colab
+
+**Los tres notebooks funcionan en Colab sin modificarlos.** La primera celda de código de cada uno
+detecta lo que falta y lo instala sola (en Colab, típicamente `sentence-transformers`, que no viene
+preinstalado; `transformers`, `torch`, `scikit-learn`, `seaborn`, `scipy` y `pandas` sí vienen).
+
+Consideraciones prácticas:
+
+| Punto | Qué esperar en Colab |
+|---|---|
+| Instalación | La celda de dependencias tarda ~1 minuto la primera vez. No hace falta reiniciar el entorno de ejecución. |
+| Descarga de modelos | Se bajan de Hugging Face en cada sesión nueva de Colab, porque la caché **no** se conserva al cerrar. Son ~510 MB (o ~1.4 GB si se corre DPR). En la red de Colab tarda poco, pero hay que contarlo cada vez. |
+| GPU | No hace falta. Todo corre en CPU en tiempos razonables; el notebook 05 es el más pesado (~10 s de cómputo con BERT). |
+| Datos del notebook 05 | Si abres el notebook **suelto**, sin el resto de la carpeta, no encontrará `stsbenchmark_muestra.csv` y bajará automáticamente el conjunto completo con `datasets` (probado). No se rompe nada. |
+| Notebook 06, sección DPR | Los ~846 MB se bajan rápido en Colab, pero siguen tardando unos minutos. `EJECUTAR_DPR = False` la salta. |
+| `USE_TF` | En Colab TensorFlow funciona bien, así que la línea no cambia nada ahí (solo acelera un poco el import). Se deja porque es indispensable en máquinas locales; ver abajo. |
+
+**La forma recomendada de llevarlo a clase** es subir la carpeta completa a Google Drive y montarla,
+para tener los datos al lado del notebook:
+
+```python
+from google.colab import drive
+drive.mount('/content/drive')
+%cd "/content/drive/MyDrive/<ruta a la carpeta>/05 Embeddings"
+```
+
 ## Preparación previa (importante)
 
-### Paquetes
+### Paquetes (solo para uso local; en Colab lo hace el notebook solo)
 
 ```bash
 pip install sentence-transformers transformers torch scikit-learn pandas seaborn matplotlib scipy
