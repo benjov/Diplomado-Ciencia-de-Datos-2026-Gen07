@@ -1,0 +1,12 @@
+# Entorno local para las sesiones de agentes con Agno.
+# Instalar dentro de un entorno virtual con Python 3.12 o superior:
+#     pip install -r requirements.txt
+
+agno>=1.0
+groq>=0.11
+python-dotenv>=1.0
+
+# Utilidades que ya usamos en el módulo
+pandas>=2.0
+scikit-learn>=1.3
+streamlit>=1.40

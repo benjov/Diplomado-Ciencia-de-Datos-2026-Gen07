@@ -21,3 +21,7 @@ __pycache__/
 CLAUDE.md
 .claude/
 .claude/settings.local.json
+
+# Llaves de API (sesión 12): nunca deben subirse al repositorio
+.env
+.env.*

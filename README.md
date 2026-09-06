@@ -45,7 +45,8 @@ ejercicios de reflexión).
 
 ## Calendario de sesiones
 
-El módulo se imparte en 10 sesiones (viernes 3.5h + sábado 4.5h, dos por semana):
+El módulo se imparte en 10 sesiones (viernes 3.5h + sábado 4.5h, dos por semana), más dos
+sesiones adicionales de IA generativa aplicada:
 
 | # | Tema | Material de este repo |
 |---|---|---|
@@ -59,6 +60,13 @@ El módulo se imparte en 10 sesiones (viernes 3.5h + sábado 4.5h, dos por seman
 | 8 | Análisis de texto II (Naive Bayes, logit de texto) | `04 Análisis de texto` (Naive Bayes, regresión logística) |
 | 9 | Árboles/bosques + redes neuronales | `02 Temas selectos/01` y `02` |
 | 10 | Embeddings + IA generativa/agentes | `02 Temas selectos/03` y `04` (cierre de módulo) |
+
+**Sesiones adicionales** (2.5 a 3 horas cada una). Cada una termina con algo publicado en internet:
+
+| # | Tema | Material | Producto |
+|---|---|---|---|
+| 11 | RAG completo y despliegue | `02 Temas selectos/04` (`08 RAG-Completo`, `09 App-RAG-Streamlit`) | Un asistente RAG desplegado en Streamlit |
+| 12 | Entorno local y página personal | `02 Temas selectos/04` (`10 Entorno-Local-VSCode`, `11 Pagina-Personal-GitHub-Pages`) | Una página personal en GitHub Pages |
 
 ## Entregables
 

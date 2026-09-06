@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- CAMBIA ESTO: aparece en la pestaña del navegador y en Google -->
+<title>Tu Nombre — Ciencia de Datos</title>
+<meta name="description" content="Portafolio de proyectos de ciencia de datos de Tu Nombre.">
+<style>
+  :root{
+    --fondo:#fbfbfa; --superficie:#ffffff; --texto:#1c1b1a; --suave:#5c5955;
+    --borde:#e4e2dd; --acento:#1a5c4a; --acento-suave:#e8f2ee;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --fondo:#16171a; --superficie:#1e2024; --texto:#eceef1; --suave:#a2a7b0;
+      --borde:#2e3238; --acento:#5fd0ab; --acento-suave:#17302a;
+    }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--fondo); color:var(--texto);
+    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .envoltura{max-width:760px; margin:0 auto; padding:64px 24px 96px}
+  header{margin-bottom:56px}
+  .avatar{
+    width:88px; height:88px; border-radius:50%; object-fit:cover;
+    border:2px solid var(--borde); margin-bottom:20px; display:block;
+  }
+  h1{font-size:2.1rem; line-height:1.2; margin:0 0 8px; letter-spacing:-.02em}
+  .rol{color:var(--acento); font-weight:600; margin:0 0 16px}
+  .bio{color:var(--suave); font-size:1.05rem; margin:0; max-width:60ch}
+  h2{
+    font-size:.8rem; text-transform:uppercase; letter-spacing:.09em;
+    color:var(--suave); margin:48px 0 18px; font-weight:700;
+  }
+  .tarjeta{
+    display:block; background:var(--superficie); border:1px solid var(--borde);
+    border-radius:12px; padding:20px 22px; margin-bottom:14px;
+    text-decoration:none; color:inherit; transition:border-color .15s, transform .15s;
+  }
+  .tarjeta:hover{border-color:var(--acento); transform:translateY(-2px)}
+  .tarjeta h3{margin:0 0 6px; font-size:1.05rem}
+  .tarjeta p{margin:0; color:var(--suave); font-size:.94rem}
+  .etiquetas{margin-top:12px; display:flex; flex-wrap:wrap; gap:6px}
+  .etiqueta{
+    background:var(--acento-suave); color:var(--acento); border-radius:99px;
+    padding:3px 10px; font-size:.78rem; font-weight:600;
+  }
+  .enlaces{display:flex; flex-wrap:wrap; gap:10px; margin-top:24px}
+  .enlaces a{
+    border:1px solid var(--borde); border-radius:8px; padding:8px 16px;
+    text-decoration:none; color:var(--texto); font-size:.92rem; font-weight:500;
+  }
+  .enlaces a:hover{border-color:var(--acento); color:var(--acento)}
+  footer{
+    margin-top:64px; padding-top:24px; border-top:1px solid var(--borde);
+    color:var(--suave); font-size:.87rem;
+  }
+  footer a{color:var(--suave)}
+</style>
+</head>
+<body>
+<div class="envoltura">
+
+  <header>
+    <!-- Opcional: sube una foto llamada foto.jpg junto a este archivo, o borra esta línea -->
+    <img class="avatar" src="foto.jpg" alt="Foto de perfil" onerror="this.style.display='none'">
+
+    <h1>Tu Nombre Completo</h1>
+    <p class="rol">Ciencia de Datos · Diplomado FES Acatlán, UNAM</p>
+    <p class="bio">
+      Escribe aquí dos o tres oraciones sobre ti: tu formación, en qué área trabajas y qué tipo de
+      problemas te interesan. Sé concreto — "analizo datos de movilidad urbana" dice mucho más que
+      "me apasionan los datos".
+    </p>
+
+    <div class="enlaces">
+      <a href="mailto:tucorreo@ejemplo.com">Correo</a>
+      <a href="https://github.com/TU_USUARIO">GitHub</a>
+      <a href="https://www.linkedin.com/in/TU_USUARIO/">LinkedIn</a>
+    </div>
+  </header>
+
+  <h2>Proyectos</h2>
+
+  <a class="tarjeta" href="https://TU-APP.streamlit.app">
+    <h3>Asistente conversacional sobre documentos (RAG)</h3>
+    <p>
+      Aplicación web que responde preguntas sobre un corpus propio: recupera los fragmentos
+      relevantes y se los entrega a un modelo de lenguaje, que responde citando la fuente y admite
+      cuando no tiene la información.
+    </p>
+    <div class="etiquetas">
+      <span class="etiqueta">Python</span>
+      <span class="etiqueta">RAG</span>
+      <span class="etiqueta">Streamlit</span>
+      <span class="etiqueta">LLM</span>
+    </div>
+  </a>
+
+  <a class="tarjeta" href="#">
+    <h3>Título de tu segundo proyecto</h3>
+    <p>
+      Qué problema resolviste, con qué datos y a qué conclusión llegaste. Una buena descripción
+      menciona el resultado, no solo la técnica: "identifiqué tres perfiles de consumo que explican
+      el 60% de la variación" pesa más que "apliqué K-means".
+    </p>
+    <div class="etiquetas">
+      <span class="etiqueta">Regresión</span>
+      <span class="etiqueta">scikit-learn</span>
+    </div>
+  </a>
+
+  <a class="tarjeta" href="#">
+    <h3>Título de tu tercer proyecto</h3>
+    <p>Descripción breve. Puedes enlazar a un notebook de tu repositorio de GitHub.</p>
+    <div class="etiquetas">
+      <span class="etiqueta">Análisis de texto</span>
+    </div>
+  </a>
+
+  <h2>Formación</h2>
+
+  <div class="tarjeta">
+    <h3>Diplomado en Ciencia de Datos — FES Acatlán, UNAM</h3>
+    <p>
+      Módulo V: modelos de regresión, agrupamiento, modelos categóricos, análisis de texto,
+      redes neuronales, embeddings y aplicaciones con modelos de lenguaje.
+    </p>
+  </div>
+
+  <footer>
+    Hecho con HTML y publicado con
+    <a href="https://pages.github.com/">GitHub Pages</a>.
+    Última actualización: septiembre de 2026.
+  </footer>
+
+</div>
+</body>
+</html>
