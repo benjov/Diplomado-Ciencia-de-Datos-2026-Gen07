@@ -1,7 +1,7 @@
 # 03 Aplicaciones NLP (word embeddings)
 
 **Sesión del módulo:** Sesión 10 — Embeddings e introducción a RAG.
-**Duración:** 3.5 horas (210 minutos), incluido un receso.
+**Duración:** 3.5 horas (210 minutos), incluido un receso. Si la sesión es de 4.5 horas, el tiempo restante lo cubre el notebook `07_De_Texto_a_Respuesta.ipynb` de `04 Modelos de IA Generativa` (~50 min), que abre la caja negra del modelo de lenguaje.
 **Prerrequisitos:** Sesión 3 (PCA), Sesión 4 (K-means y *silhouette*), Sesión 8 (bolsa de palabras
 y clasificación de texto) y Sesión 9 (redes neuronales).
 **Notas relacionadas:** `main.tex`, capítulo 2, sección *"Aplicaciones de modelos de lenguaje
@@ -41,6 +41,7 @@ clase.
 | 1:45 – 2:45 | Notebook 05 | Completo. El clímax es la comparación BERT vs. SBERT contra el estándar humano. |
 | 2:45 – 3:35 | Notebook 06 | Completo. Si la red no aguanta la descarga de DPR, se corre con `EJECUTAR_DPR = False` y se discute la salida ya conocida. |
 | 3:35 – 3:50 | Cierre | Enlace explícito con `04 Modelos de IA Generativa`: el *prompt* que armamos al final del notebook 06 es exactamente la entrada del siguiente bloque. |
+| 3:50 – 4:40 | Notebook 07 *(solo si la sesión es de 4.5 h)* | `04 Modelos de IA Generativa/07 De-Texto-a-Respuesta`: qué le pasa a ese *prompt* del otro lado. Si no hay tiempo, se recorre al inicio de la Sesión 11. |
 
 **Si hay que recortar:** el notebook 06 es el que menos se puede sacrificar (es el puente al
 siguiente bloque). Lo recortable, en este orden, es la sección 6 del notebook 04 ("Tu turno", que

@@ -10,6 +10,8 @@ from groq import Groq
 from corpus_diplomado import CORPUS
 from rag_core import (
     MENSAJE_SIN_CONTEXTO,
+    MODELO_POR_DEFECTO,
+    MODELO_RAPIDO,
     PROMPT_SISTEMA,
     construir_mensajes,
     indexar,
@@ -49,8 +51,8 @@ with st.sidebar:
 
     modelo = st.selectbox(
         "Modelo",
-        ["llama-3.3-70b-versatile", "llama-3.1-8b-instant"],
-        help="El de 70B responde mejor; el de 8B responde más rápido.",
+        [MODELO_POR_DEFECTO, MODELO_RAPIDO],
+        help="El de 120B responde mejor; el de 20B responde más rápido.",
     )
     k = st.slider("Fragmentos a recuperar (k)", 1, 6, 3,
                   help="Cuántos documentos del corpus se le entregan al modelo.")

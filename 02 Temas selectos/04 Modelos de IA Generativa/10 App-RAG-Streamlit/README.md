@@ -1,7 +1,7 @@
-# 09 — App RAG desplegable (Streamlit)
+# 10 — App RAG desplegable (Streamlit)
 
 Aplicación web que responde preguntas sobre el Módulo V usando **solo** las notas del curso.
-Es la versión "producto" de lo que construimos en el notebook `08_RAG_Completo.ipynb`.
+Es la versión "producto" de lo que construimos en el notebook `09_RAG_Completo.ipynb`.
 
 **Al terminar esta parte tendrás una URL pública, tuya, que puedes compartir con quien quieras.**
 
@@ -121,7 +121,7 @@ Cambia también el título y los ejemplos de `streamlit_app.py` para que hablen 
 | Síntoma | Causa y solución |
 |---|---|
 | `Error 401 - Invalid API Key` | La llave está mal copiada o fue revocada. Genera una nueva en console.groq.com/keys. |
-| `Error 429 - Rate limit` | Se agotó la cuota gratuita del minuto. Espera un momento o cambia al modelo `llama-3.1-8b-instant`. |
+| `Error 429 - Rate limit` | Se agotó la cuota gratuita del minuto. Espera un momento o cambia al modelo `openai/gpt-oss-20b` en la barra lateral. |
 | La app dice "no encontré nada" con preguntas que sí son del temario | El umbral está muy alto. Bájalo en la barra lateral. |
 | `ModuleNotFoundError` al desplegar | `requirements.txt` no está en la raíz del repositorio. |
 | La app "duerme" y tarda en abrir | Normal: en el plan gratuito las apps se suspenden tras 12 horas sin visitas. El primer acceso la despierta. |

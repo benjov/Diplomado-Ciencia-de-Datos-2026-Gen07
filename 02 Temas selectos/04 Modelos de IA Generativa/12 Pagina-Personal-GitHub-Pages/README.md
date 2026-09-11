@@ -1,4 +1,4 @@
-# 11 — Tu página personal con GitHub Pages
+# 12 — Tu página personal con GitHub Pages
 
 **Sesión 12 · Bloque 2 de 2 · Duración estimada: 70 minutos**
 

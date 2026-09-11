@@ -2,7 +2,7 @@
 
 Separamos el núcleo de la interfaz a propósito: así este archivo se puede probar
 solo, y `streamlit_app.py` se queda únicamente con lo visual. Es el mismo código
-que construimos paso a paso en el notebook `08_RAG_Completo.ipynb`.
+que construimos paso a paso en el notebook `09_RAG_Completo.ipynb`.
 
 Los tres pasos de RAG viven aquí:
   1. indexar()          -> convierte el corpus en una matriz consultable
@@ -28,7 +28,10 @@ STOPWORDS_ES = [
     "sirve", "cómo", "cuál", "cuáles", "quiero", "tengo",
 ]
 
-MODELO_POR_DEFECTO = "llama-3.3-70b-versatile"
+# Groq retiró "llama-3.3-70b-versatile" de la capa gratuita el 2026-08-16.
+# Si esto vuelve a pasar, `modelos_disponibles()` dice qué ofrece hoy tu llave.
+MODELO_POR_DEFECTO = "openai/gpt-oss-120b"
+MODELO_RAPIDO = "openai/gpt-oss-20b"
 
 PROMPT_SISTEMA = """Eres el asistente del Módulo V del Diplomado de Ciencia de Datos de la FES Acatlán, UNAM.
 
@@ -102,14 +105,33 @@ def construir_mensajes(pregunta, fragmentos, historial=None, prompt_sistema=PROM
     return mensajes
 
 
+def modelos_disponibles(cliente):
+    """Pregunta a la API qué modelos puede usar esta llave, hoy.
+
+    Los proveedores retiran modelos cada pocos meses (a este curso le pasó con
+    `llama-3.3-70b-versatile` el 2026-08-16). Cuando una llamada falle con un 404,
+    esta función dice con qué reemplazarlo sin tener que buscar en la documentación.
+    """
+    return sorted(m.id for m in cliente.models.list().data)
+
+
 def responder(cliente, mensajes, modelo=MODELO_POR_DEFECTO, temperatura=0.2, max_tokens=700):
     """Paso 3b de RAG: llama al modelo de lenguaje y devuelve el texto de la respuesta."""
-    respuesta = cliente.chat.completions.create(
-        model=modelo,
-        messages=mensajes,
-        temperature=temperatura,
-        max_tokens=max_tokens,
-    )
+    try:
+        respuesta = cliente.chat.completions.create(
+            model=modelo,
+            messages=mensajes,
+            temperature=temperatura,
+            max_tokens=max_tokens,
+        )
+    except Exception as error:
+        if "model_not_found" in str(error) or "does not exist" in str(error):
+            raise RuntimeError(
+                f"El proveedor ya no ofrece el modelo '{modelo}'. "
+                f"Modelos disponibles hoy para tu llave: "
+                f"{', '.join(modelos_disponibles(cliente))}"
+            ) from None
+        raise
     return respuesta.choices[0].message.content
 
 

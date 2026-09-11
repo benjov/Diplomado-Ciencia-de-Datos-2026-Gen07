@@ -1,4 +1,4 @@
-# 10 — Tu entorno local: VS Code, Python y Git
+# 11 — Tu entorno local: VS Code, Python y Git
 
 **Sesión 12 · Bloque 1 de 2 · Duración estimada: 75 minutos**
 
@@ -172,6 +172,7 @@ Así se lee después desde Python:
 ```python
 import os
 from dotenv import load_dotenv
+from groq import Groq
 
 load_dotenv()                          # lee el archivo .env
 cliente = Groq(api_key=os.environ["GROQ_API_KEY"])
@@ -201,7 +202,7 @@ paso repetir.
 En las sesiones posteriores vamos a usar **[Agno](https://docs.agno.com)**, un marco de trabajo en
 Python para construir agentes. Ya lo tienes instalado.
 
-La idea será la misma que vimos en `07 Building-a-Chat` con LangChain —un modelo que decide cuándo
+La idea será la misma que vimos en `08 Building-a-Chat` con LangChain —un modelo que decide cuándo
 usar herramientas— pero con tres cosas que hoy no podíamos hacer y que ahora sí, gracias a tener
 entorno local: agentes que **recuerdan** entre ejecuciones, agentes que **trabajan en equipo**, y
 agentes con acceso a **tus propios archivos**.

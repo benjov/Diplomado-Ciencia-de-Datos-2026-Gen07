@@ -3,7 +3,7 @@
 #     pip install -r requirements.txt
 
 agno>=1.0
-groq>=0.11
+groq>=1.0
 python-dotenv>=1.0
 
 # Utilidades que ya usamos en el módulo

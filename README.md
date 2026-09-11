@@ -59,14 +59,14 @@ sesiones adicionales de IA generativa aplicada:
 | 7 | Análisis de texto I (regex, PDFs, n-gramas) | `04 Análisis de texto` (regex, PDF, n-gramas) |
 | 8 | Análisis de texto II (Naive Bayes, logit de texto) | `04 Análisis de texto` (Naive Bayes, regresión logística) |
 | 9 | Árboles/bosques + redes neuronales | `02 Temas selectos/01` y `02` |
-| 10 | Embeddings + IA generativa/agentes | `02 Temas selectos/03` y `04` (cierre de módulo) |
+| 10 | Embeddings + qué pasa dentro de un LLM | `02 Temas selectos/03`; `02 Temas selectos/04` (`07 De-Texto-a-Respuesta`) |
 
 **Sesiones adicionales** (2.5 a 3 horas cada una). Cada una termina con algo publicado en internet:
 
 | # | Tema | Material | Producto |
 |---|---|---|---|
-| 11 | RAG completo y despliegue | `02 Temas selectos/04` (`08 RAG-Completo`, `09 App-RAG-Streamlit`) | Un asistente RAG desplegado en Streamlit |
-| 12 | Entorno local y página personal | `02 Temas selectos/04` (`10 Entorno-Local-VSCode`, `11 Pagina-Personal-GitHub-Pages`) | Una página personal en GitHub Pages |
+| 11 | RAG completo y despliegue | `02 Temas selectos/04` (`09 RAG-Completo`, `10 App-RAG-Streamlit`) | Un asistente RAG desplegado en Streamlit |
+| 12 | Entorno local y página personal | `02 Temas selectos/04` (`11 Entorno-Local-VSCode`, `12 Pagina-Personal-GitHub-Pages`) | Una página personal en GitHub Pages |
 
 ## Entregables
 
@@ -100,13 +100,19 @@ es un tercer componente de este 50/50. Su encargo se mencionará al final del M�
 
 ## Sobre el bloque de IA Generativa
 
-`02 Temas selectos/04 Modelos de IA Generativa` incluye dos notebooks progresivos: un agente
-conversacional simple (`Agente_Basico.ipynb`) y un agente con herramientas —búsqueda web y
-calculadora segura, sin `eval()`— que decide cuándo usarlas (`Agente_Intermedio.ipynb`). Ambos
-usan LangChain con Llama 3.3 70B vía Groq (sin costo para el estudiante). El objetivo no es que
-domines la ingeniería del framework, sino que entiendas cómo se diseña un sistema que combina un
-modelo de lenguaje con herramientas externas, y qué implicaciones prácticas y éticas tiene esa
-decisión (dependencia de servicios externos, latencia, variabilidad de resultados).
+`02 Temas selectos/04 Modelos de IA Generativa` va de adentro hacia afuera. Empieza por abrir la
+caja negra: `07_De_Texto_a_Respuesta.ipynb` descarga un modelo de lenguaje pequeño en español y lo
+desarma pieza por pieza —tokens, la tabla de *embeddings* que vive dentro del modelo, las capas de
+atención, los *logits*, la temperatura y el bucle que escribe palabra por palabra— sin necesidad
+de llave de API.
+
+Sigue con dos notebooks progresivos de uso: un agente conversacional simple
+(`Agente_Basico.ipynb`) y un agente con herramientas —búsqueda web y calculadora segura, sin
+`eval()`— que decide cuándo usarlas (`Agente_Intermedio.ipynb`). Ambos usan LangChain con
+`openai/gpt-oss-120b` vía Groq (un modelo de pesos abiertos, sin costo para el estudiante). El objetivo no es que domines la ingeniería del
+framework, sino que entiendas cómo se diseña un sistema que combina un modelo de lenguaje con
+herramientas externas, y qué implicaciones prácticas y éticas tiene esa decisión (dependencia de
+servicios externos, latencia, variabilidad de resultados).
 
 ## Generaciones anteriores
 
