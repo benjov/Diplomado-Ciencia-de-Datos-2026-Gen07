@@ -104,9 +104,9 @@ que quedó bien.
 | Carpeta | Qué es | Sesión |
 |---|---|---|
 | `07 De-Texto-a-Respuesta/07_De_Texto_a_Respuesta.ipynb` | Abre la caja negra: tokenización, la tabla de embeddings dentro del modelo, las capas de atención causal, los logits, la temperatura y el bucle autorregresivo escrito a mano. Todo local, sin llave de API. | 10 (cierre) |
-| `08 Building-a-Chat/Agente_Basico.ipynb` | Agente conversacional con LangChain + `openai/gpt-oss-120b` (Groq): modelo, roles y memoria como lista de mensajes. | Referencia |
-| `08 Building-a-Chat/Agente_Intermedio.ipynb` | El mismo agente con dos herramientas (búsqueda web y calculadora segura sin `eval()`). El modelo decide cuándo usarlas. | Referencia |
-| `09 RAG-Completo/09_RAG_Completo.ipynb` | Cierra el ciclo de RAG: generación con Groq, el prompt de sistema medido con un experimento, y la elección del recuperador con datos. | 11 |
+| `08 Building-a-Chat/Agente_Basico.ipynb` | Agente conversacional con LangChain + `openai/gpt-oss-120b` (Groq): modelo, roles y memoria como lista de mensajes. Incluye cómo ver la **cadena de pensamiento** del modelo, que viaja aparte de la respuesta. | Referencia |
+| `08 Building-a-Chat/Agente_Intermedio.ipynb` | El mismo agente con dos herramientas (búsqueda web y calculadora segura sin `eval()`). El modelo decide cuándo usarlas, y la traza completa **pensar → actuar → observar** (patrón ReAct) se imprime paso a paso. | Referencia |
+| `09 RAG-Completo/09_RAG_Completo.ipynb` | Cierra el ciclo de RAG: generación con Groq, el prompt de sistema medido con un experimento, la cadena de pensamiento del modelo (y su costo en tokens), y la elección del recuperador con datos. | 11 |
 | `10 App-RAG-Streamlit/` | La aplicación desplegable: `streamlit_app.py`, `rag_core.py`, `corpus_diplomado.py` y la guía de despliegue. | 11 |
 | `11 Entorno-Local-VSCode/` | Guía de instalación (Mac y Windows) y `verificar_entorno.py`, que revisa siete condiciones y dice qué falta. | 12 |
 | `12 Pagina-Personal-GitHub-Pages/` | Guía de publicación y una plantilla HTML de una sola página, responsiva y sin dependencias. | 12 |
