@@ -13,13 +13,17 @@ posteriores de agentes con **Agno** empiecen en el contenido y no en la instalac
 
 > **Al final corres un script que verifica todo.** Si te marca todo en verde, quedaste listo.
 
+> **Si algo aquí se te complica, no te quedas sin la sesión.** El segundo bloque (tu página
+> personal en GitHub Pages) se hace por completo desde el navegador y no necesita nada de lo que
+> instalamos aquí.
+
 ## Qué vamos a instalar y para qué
 
 | Herramienta | Para qué |
 |---|---|
 | **Python 3.12 o superior** | Agno lo exige. La versión que trae tu sistema suele ser más vieja. |
 | **VS Code** | El editor donde vas a escribir el proyecto y usar la terminal integrada. |
-| **Git** | Para versionar tu trabajo y publicarlo en GitHub (bloque 2 de esta sesión). |
+| **Git** | Para versionar tu trabajo y publicarlo en GitHub desde tu computadora. |
 | **Un entorno virtual** | Para que los paquetes de este proyecto no se mezclen con los de otros. |
 
 ---

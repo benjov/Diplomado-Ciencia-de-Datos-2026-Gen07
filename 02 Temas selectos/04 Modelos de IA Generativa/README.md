@@ -89,13 +89,18 @@ la parte del programa donde se implementa la política de honestidad del sistema
 |---|---|---|
 | 0:00 – 1:15 | VS Code, Python 3.12, entorno virtual, Git y manejo seguro de llaves | `11 Entorno-Local-VSCode/README.md` |
 | 1:15 – 1:30 | **Receso** | |
-| 1:30 – 2:40 | Página personal con GitHub Pages, editada en VS Code y publicada con Git | `12 Pagina-Personal-GitHub-Pages/README.md` |
+| 1:30 – 2:40 | Página personal con GitHub Pages, **hecha 100 % desde el navegador** | `12 Pagina-Personal-GitHub-Pages/README.md` |
 | 2:40 – 3:00 | Cierre: qué sigue con Agno | |
 
 El primer bloque no construye agentes: prepara el entorno para las sesiones posteriores en las que
-se usará **Agno**, de modo que aquellas empiecen en el contenido y no en la instalación. El
-segundo bloque usa ese entorno recién montado para algo real, que es la mejor forma de verificar
-que quedó bien.
+se usará **Agno**, de modo que aquellas empiecen en el contenido y no en la instalación.
+
+El segundo bloque es **independiente del primero**: se hace por completo desde el navegador, sin
+instalar nada ni escribir un comando de Git. Es deliberado — así, quien se atore en la instalación
+no se queda sin el entregable de la sesión. Por la misma razón, **los dos bloques se pueden
+invertir** si el grupo viene con poca experiencia técnica: empezar por la página (que sale seguro y
+termina en una URL propia) y dejar la instalación al final, cuando ya nadie se juega el producto de
+la sesión.
 
 ---
 
@@ -109,7 +114,7 @@ que quedó bien.
 | `09 RAG-Completo/09_RAG_Completo.ipynb` | Cierra el ciclo de RAG: generación con Groq, el prompt de sistema medido con un experimento, la cadena de pensamiento del modelo (y su costo en tokens), y la elección del recuperador con datos. | 11 |
 | `10 App-RAG-Streamlit/` | La aplicación desplegable: `streamlit_app.py`, `rag_core.py`, `corpus_diplomado.py` y la guía de despliegue. | 11 |
 | `11 Entorno-Local-VSCode/` | Guía de instalación (Mac y Windows) y `verificar_entorno.py`, que revisa siete condiciones y dice qué falta. | 12 |
-| `12 Pagina-Personal-GitHub-Pages/` | Guía de publicación y una plantilla HTML de una sola página, responsiva y sin dependencias. | 12 |
+| `12 Pagina-Personal-GitHub-Pages/` | Guía de publicación **desde el navegador** (sin VS Code ni Git) y una plantilla HTML de una sola página, responsiva, sin dependencias y con marcadores `CAMBIA ESTO` en cada punto editable. | 12 |
 
 Los notebooks de `08 Building-a-Chat` son material previo y siguen vigentes; se usan como
 referencia del patrón de agente con herramientas, que es hacia donde apuntan las sesiones

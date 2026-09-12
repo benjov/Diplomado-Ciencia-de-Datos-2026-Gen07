@@ -7,9 +7,11 @@
 y tus proyectos del diplomado.
 
 No es un ejercicio decorativo. Cuando alguien quiere saber qué sabes hacer, un enlace a algo que
-funciona vale más que una lista de temas en un currículum. Y como vamos a editarla con VS Code y
-publicarla con Git, es también la primera vez que usas el entorno que acabas de instalar para algo
-real.
+funciona vale más que una lista de temas en un currículum.
+
+> **Todo se hace desde el navegador.** No hace falta instalar nada, ni usar VS Code, ni escribir un
+> solo comando de Git. Si acabas de montar tu entorno local en el bloque anterior, perfecto — pero
+> este bloque **no depende de él**, así que nadie se queda fuera por un problema de instalación.
 
 ## Por qué GitHub Pages y no Streamlit
 
@@ -25,120 +27,136 @@ Ya desplegaste una app en Streamlit. ¿Por qué otra herramienta? Porque hacen c
 Una página estática no puede correr tu chatbot; una app de Streamlit es un mal portafolio. Se
 complementan: la página es la puerta de entrada y desde ahí enlazas la app.
 
+## Material de apoyo
+
+Este bloque sigue la misma lógica del taller **[De cero a online](https://github.com/benjov/github-pages-workshop)**,
+donde hay material para repasar a tu ritmo:
+
+| Material | Para qué |
+|---|---|
+| [Guía paso a paso ilustrada](https://benjov.github.io/github-pages-workshop/guia/) | Repetir el procedimiento en casa, con capturas de cada pantalla |
+| [Demo de portafolio](https://benjov.github.io/github-pages-workshop/demo-egresado/) | Ver a dónde se puede llegar: un portafolio con proyectos desarrollados |
+
+La plantilla que usamos aquí (`plantilla/index.html`, en esta carpeta) está pensada para el cierre
+de este módulo: su primera tarjeta es tu app de RAG.
+
 ---
 
-## Paso 1 — Crear el repositorio (el nombre importa)
+## Paso 1 — Crear el repositorio (el nombre es el truco)
 
 GitHub tiene una regla especial: si nombras un repositorio **exactamente**
 `TU_USUARIO.github.io`, su contenido se publica en `https://TU_USUARIO.github.io`, sin
 configuración extra.
 
 1. Entra a [github.com/new](https://github.com/new).
-2. En **Repository name** escribe `TU_USUARIO.github.io`, con tu usuario real y todo en
-   minúsculas. Si tu usuario es `benjov`, el repositorio se llama `benjov.github.io`.
-3. Marca **Public** (Pages gratuito requiere repositorio público).
-4. Marca **Add a README file**.
-5. *Create repository*.
+2. En **Repository name** escribe `TU_USUARIO.github.io`, con tu usuario real. Si tu usuario es
+   `benjov`, el repositorio se llama `benjov.github.io`.
+3. Marca **Public**. GitHub Pages gratuito solo publica repositorios públicos.
+4. Deja lo demás como está y haz clic en **Create repository**.
 
-> **El error más común de este paso** es escribir el nombre del repositorio distinto al del
-> usuario. Si no coinciden exactamente, la publicación automática no ocurre.
-
----
-
-## Paso 2 — Clonarlo con VS Code
-
-Abre la terminal (dentro de VS Code: menú *Terminal → New Terminal*):
-
-```bash
-git clone https://github.com/TU_USUARIO/TU_USUARIO.github.io.git
-cd TU_USUARIO.github.io
-code .
-```
+> **El error más común de este paso** es que el nombre del repositorio no coincida con el del
+> usuario. Tiene que ser idéntico, respetando mayúsculas: si tu usuario es `MariaGarcia`, el
+> repositorio es `MariaGarcia.github.io`.
 
 ---
 
-## Paso 3 — Copiar y personalizar la plantilla
+## Paso 2 — Crear el archivo `index.html` desde el navegador
 
-Copia el archivo `plantilla/index.html` de esta carpeta a la raíz de tu repositorio recién
-clonado. **Tiene que llamarse `index.html`**: es el nombre que los servidores web buscan por
-omisión.
+Una página web es un archivo de texto. Vamos a crearlo dentro de GitHub, sin descargar nada.
 
-Ábrelo en VS Code y cambia, en este orden:
+1. En tu repositorio recién creado, haz clic en **Add file → Create new file**.
+2. En el campo del nombre escribe exactamente **`index.html`**, en minúsculas y sin espacios. Es
+   el nombre que los servidores web buscan por omisión; con cualquier otro, la página no aparece.
+3. Abre `plantilla/index.html` de esta carpeta, **selecciona todo el contenido y cópialo**.
+   (En GitHub, el botón para copiar el archivo completo está arriba a la derecha del código.)
+4. Pégalo en el área de edición grande.
+5. Baja hasta el final y haz clic en el botón verde **Commit changes**.
 
-1. **`<title>`** (línea 7) — aparece en la pestaña del navegador y en los resultados de búsqueda.
-2. **Tu nombre** en el `<h1>`.
-3. **La biografía** — dos o tres oraciones concretas. "Analizo datos de movilidad urbana en la
-   Zona Metropolitana" dice mucho más que "me apasiona la ciencia de datos".
-4. **Los enlaces de contacto** — correo, GitHub, LinkedIn.
-5. **La primera tarjeta de proyecto** — pon ahí la URL real de tu app de Streamlit de la sesión 11.
-6. **Las otras dos tarjetas** — tus trabajos del diplomado. Puedes enlazar directamente a un
-   notebook dentro de tu repositorio de GitHub.
+Con eso ya tienes una página publicada. Espera **uno a tres minutos** y entra a
+`https://TU_USUARIO.github.io`: debe aparecer la plantilla, todavía con los textos de ejemplo.
 
-La plantilla ya se adapta a celulares y cambia sola a modo oscuro si el visitante lo tiene
-activado. No necesita ninguna librería externa: es un solo archivo.
-
-> **Sobre la foto.** La plantilla busca una imagen llamada `foto.jpg` junto al `index.html`. Si la
-> subes, aparece; si no, la línea se oculta sola y no se rompe nada.
-
-### Verlo antes de publicar
-
-En VS Code, clic derecho sobre `index.html` → *Open with Live Server* (si instalaste esa
-extensión), o simplemente abre el archivo con doble clic en tu navegador. Es un archivo estático:
-lo que ves en local es exactamente lo que se va a publicar.
+> Puedes ver el progreso de la publicación en la pestaña **Actions** de tu repositorio: aparece una
+> palomita verde cuando termina.
 
 ---
 
-## Paso 4 — Publicar
+## Paso 3 — Personalizar la plantilla
 
-```bash
-git add .
-git commit -m "Mi página personal"
-git push
-```
+La plantilla tiene comentarios **`<!-- CAMBIA ESTO: ... -->`** en cada punto que debes editar. Para
+editar desde el navegador: abre `index.html` en tu repositorio y haz clic en el **ícono del lápiz
+(✏️)**, arriba a la derecha.
 
-Espera **entre uno y tres minutos** y entra a `https://TU_USUARIO.github.io`.
+Los cambios mínimos para que la página sea tuya:
 
-Puedes ver el progreso en la pestaña **Actions** de tu repositorio en GitHub: ahí aparece el
-proceso de publicación con una palomita verde cuando termina.
+| # | Qué cambias | Dónde |
+|---|---|---|
+| 1 | El **título de la pestaña** | `<title>` |
+| 2 | Tu **inicial** en el avatar | `data-inicial="T"` |
+| 3 | Tu **nombre** | `<h1>` |
+| 4 | Tu **título profesional** | `<p class="rol">` — por ejemplo "Socióloga y analista de datos" |
+| 5 | Tu **biografía** | `<p class="bio">` — dos o tres oraciones concretas |
+| 6 | Tus **enlaces** de correo, GitHub y LinkedIn | `<div class="enlaces">` |
+| 7 | La **URL de tu app de Streamlit** | primera tarjeta de Proyectos |
 
-> **Si después de cinco minutos ves un 404:** ve a *Settings → Pages* en tu repositorio y revisa
-> que en **Source** diga *Deploy from a branch*, y que la rama sea `main` con carpeta `/ (root)`.
+Cuando termines, baja y haz clic en **Commit changes** otra vez. Cada *commit* vuelve a publicar la
+página sola; en un minuto se ve el cambio.
 
-A partir de aquí, cada `git push` actualiza la página automáticamente.
+Dos notas sobre la plantilla:
+
+- **No necesitas subir una foto.** El avatar es un círculo con tu inicial. Si prefieres una foto,
+  súbela con **Add file → Upload files** y sigue la instrucción del comentario en esa misma línea.
+- **Se adapta a celulares y respeta el modo oscuro** del visitante. Es un solo archivo, sin
+  librerías externas: no hay nada que se pueda romper por una dependencia.
+
+### Sobre qué escribir en las tarjetas
+
+Una buena descripción de proyecto menciona **el resultado**, no solo la técnica: *"identifiqué tres
+perfiles de consumo que explican el 60 % de la variación"* pesa mucho más que *"apliqué K-means"*.
+Si no tienes tres proyectos, borra las tarjetas que sobren — una página corta y honesta se ve mejor
+que una rellena con huecos.
 
 ---
 
-## Paso 5 — Enlazar tus dos mundos
+## Paso 4 — Enlazar tus dos mundos
 
 Cierra el círculo de las dos sesiones:
 
-1. En tu **página personal**, la primera tarjeta enlaza a tu **app de Streamlit**.
-2. En tu **app de Streamlit**, agrega tu nombre y un enlace a tu página personal. Abre
-   `streamlit_app.py`, busca la línea del `st.caption(...)` bajo el título y agrégale algo como:
+1. En tu **página personal**, la primera tarjeta ya enlaza a tu **app de Streamlit** (paso 3).
+2. En tu **app de Streamlit**, agrega tu nombre y un enlace de regreso. También desde el navegador:
+   entra a tu repositorio de la app en GitHub, abre `streamlit_app.py`, dale al lápiz, busca la
+   línea del `st.caption(...)` bajo el título y agrega:
 
    ```python
    st.caption("Hecho por [Tu Nombre](https://TU_USUARIO.github.io)")
    ```
 
-   Haz `git push` en ese repositorio y Streamlit vuelve a desplegar solo.
+   **Commit changes**, y Streamlit Community Cloud vuelve a desplegar la app solo.
+
+Ahora cualquiera que llegue a tu página puede probar tu asistente, y cualquiera que use tu
+asistente sabe quién lo hizo.
 
 ---
 
 ## Ideas para después
 
 - **Escribe una entrada sobre uno de tus proyectos.** Explicar qué hiciste y por qué es la mejor
-  forma de demostrar que lo entendiste. Agrega un `proyecto.html` y enlázalo desde una tarjeta.
-- **Usa un dominio propio.** Si compras `tunombre.com`, GitHub Pages lo acepta gratis desde
-  *Settings → Pages → Custom domain*.
+  forma de demostrar que lo entendiste. Crea un archivo `proyecto.html` (mismo procedimiento del
+  paso 2) y enlázalo desde una tarjeta.
 - **Publica tus notebooks.** GitHub los muestra ya renderizados: basta enlazar al archivo `.ipynb`
   dentro de tu repositorio.
+- **Usa un dominio propio.** Si compras `tunombre.com`, GitHub Pages lo acepta gratis desde
+  *Settings → Pages → Custom domain*.
+- **Edita desde tu computadora.** Si montaste el entorno del bloque anterior, puedes clonar el
+  repositorio con `git clone` y editarlo en VS Code. Es más cómodo para cambios grandes, pero el
+  resultado es exactamente el mismo: no te lo pierdes por haber trabajado en el navegador.
 
 ## Problemas frecuentes
 
 | Síntoma | Causa y solución |
 |---|---|
-| 404 después de varios minutos | El repositorio no se llama exactamente `TU_USUARIO.github.io`, o es privado. |
+| 404 después de varios minutos | El repositorio no se llama exactamente `TU_USUARIO.github.io`, o es privado. Revísalo en *Settings*. |
+| 404 y el nombre sí está bien | Ve a *Settings → Pages* y revisa que en **Source** diga *Deploy from a branch*, con la rama `main` y la carpeta `/ (root)`. |
+| La página aparece en blanco | El archivo no se llama `index.html` (revisa mayúsculas y espacios), o está dentro de una carpeta en vez de la raíz. |
 | La página sale sin estilos | El navegador guardó la versión anterior. Recarga forzando: `Ctrl+Shift+R` (Mac: `Cmd+Shift+R`). |
-| `git push` pide usuario y contraseña y las rechaza | GitHub ya no acepta contraseñas: hay que usar un *personal access token* o configurar SSH. Está explicado en el manual de `00 Notas`. |
-| Los cambios no se ven | ¿Hiciste `commit` **y** `push`? Revisa con `git status` que no quede nada pendiente. |
-| Se publicó tu archivo `.env` | Revoca la llave de inmediato en console.groq.com y genera otra. Borrar el archivo no basta: queda en el historial. |
+| Cambié el archivo y no se ve | ¿Le diste **Commit changes** al final de la página? Editar en el navegador no guarda solo. |
+| Se me rompió la página al editar | Abre el historial del archivo (*History*), entra al *commit* anterior y usa el botón de los tres puntos para restaurar esa versión. |
